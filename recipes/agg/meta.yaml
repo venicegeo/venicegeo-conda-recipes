@@ -3,9 +3,6 @@ package:
   version: 2.5.0
 source:
   url: http://www.antigrain.com/agg-2.5.tar.gz
-build:
-  script_env:
-    - CONDA_BLD_PATH
 requirements:
   build:
     - gcc

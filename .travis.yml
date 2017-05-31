@@ -19,6 +19,7 @@ install:
   - conda install conda-build anaconda-client
 script:
   - conda build -c conda-forge -c defaults recipes/agg
+  - conda build -c conda-forge -c defaults recipes/pypotrace
 after_success:
   #- test $TRAVIS_BRANCH = "master" && bash ./conda_upload.sh
   - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH"
@@ -26,4 +27,8 @@ after_success:
   - if [ "$TRAVIS_BRANCH" = "master" ]; then
       AGG_OUTPUT=$(conda build -c conda-forge -c defaults recipes/agg --output);
       anaconda -v -t $CONDA_UPLOAD_TOKEN upload "$AGG_OUTPUT" -u coastline --force;
+    fi
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then
+      PYPOTRACE_OUTPUT=$(conda build -c conda-forge -c defaults recipes/pypotrace --output);
+      anaconda -v -t $CONDA_UPLOAD_TOKEN upload "$PYPOTRACE_OUTPUT" -u coastline --force;
     fi
