@@ -1,0 +1,16 @@
+package:
+  name: agg
+  version: 2.5.0
+source:
+  url: http://www.antigrain.com/agg-2.5.tar.gz
+build:
+  script_env:
+    - CONDA_BLD_PATH
+requirements:
+  build:
+    - gcc
+    - libgfortran
+about:
+  home: http://antigrain.com/
+  summary: "Anti-Grain Geometry (AGG) is a general purpose graphical toolkit written completely in standard and platform independent C++."
+  license: GPL
