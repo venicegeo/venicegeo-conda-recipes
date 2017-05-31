@@ -32,9 +32,9 @@ install:
   - conda update -q conda
   - conda info -a
   - conda install conda-build anaconda-client
-  - conda build recipes/libagg
+  - conda build --token $CONDA_UPLOAD_TOKEN recipes/libagg
 #  - conda install libagg --use-local
-  - conda build recipes/gippy
+  - conda build --token $CONDA_UPLOAD_TOKEN recipes/gippy
 #  - conda install gippy --use-local
 #  - conda build recipes/pypotrace
 #  - conda install pypotrace --use-local
