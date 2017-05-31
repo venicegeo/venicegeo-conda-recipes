@@ -23,8 +23,10 @@ install:
   - conda install conda-build anaconda-client
   - conda build -c conda-forge -c defaults -c bioconda recipes/libagg
   - conda install libagg --use-local
-  - conda build -c conda-forge -c defaults -c bioconda recipes/pypotrace
-  - conda install pypotrace --use-local
+  - conda build -c conda-forge -c defaults -c bioconda recipes/gippy
+  - conda install gippy --use-local
+#  - conda build -c conda-forge -c defaults -c bioconda recipes/pypotrace
+#  - conda install pypotrace --use-local
 script:
   - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH"
   - echo "TRAVIS_EVENT_TYPE=$TRAVIS_EVENT_TYPE"
@@ -34,6 +36,10 @@ after_success:
       anaconda -v -t $CONDA_UPLOAD_TOKEN upload "$AGG_OUTPUT" -u coastline --force;
     fi
   - if [ "$TRAVIS_BRANCH" = "master" ]; then
-      PYPOTRACE_OUTPUT=$(conda build -c conda-forge -c defaults -c bioconda recipes/pypotrace --output);
-      anaconda -v -t $CONDA_UPLOAD_TOKEN upload "$PYPOTRACE_OUTPUT" -u coastline --force;
+      GIPPY_OUTPUT=$(conda build -c conda-forge -c defaults -c bioconda recipes/gippy --output);
+      anaconda -v -t $CONDA_UPLOAD_TOKEN upload "$GIPPY_OUTPUT" -u coastline --force;
     fi
+#  - if [ "$TRAVIS_BRANCH" = "master" ]; then
+#      PYPOTRACE_OUTPUT=$(conda build -c conda-forge -c defaults -c bioconda recipes/pypotrace --output);
+#      anaconda -v -t $CONDA_UPLOAD_TOKEN upload "$PYPOTRACE_OUTPUT" -u coastline --force;
+#    fi
