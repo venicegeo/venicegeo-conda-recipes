@@ -1,5 +1,5 @@
 package:
-  name: agg
+  name: libagg
   version: 2.5.0
 source:
   url: http://www.antigrain.com/agg-2.5.tar.gz

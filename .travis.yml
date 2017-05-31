@@ -18,17 +18,17 @@ install:
   - conda info -a
   - conda install conda-build anaconda-client
 script:
-  - conda build -c conda-forge -c defaults recipes/agg
-  - conda build -c conda-forge -c defaults recipes/pypotrace
+  - conda build -c conda-forge -c defaults -c bioconda recipes/libagg
+  - conda build -c conda-forge -c defaults -c bioconda recipes/pypotrace
 after_success:
   #- test $TRAVIS_BRANCH = "master" && bash ./conda_upload.sh
   - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH"
   - echo "TRAVIS_EVENT_TYPE=$TRAVIS_EVENT_TYPE"
   - if [ "$TRAVIS_BRANCH" = "master" ]; then
-      AGG_OUTPUT=$(conda build -c conda-forge -c defaults recipes/agg --output);
+      AGG_OUTPUT=$(conda build -c conda-forge -c defaults -c bioconda recipes/libagg --output);
       anaconda -v -t $CONDA_UPLOAD_TOKEN upload "$AGG_OUTPUT" -u coastline --force;
     fi
   - if [ "$TRAVIS_BRANCH" = "master" ]; then
-      PYPOTRACE_OUTPUT=$(conda build -c conda-forge -c defaults recipes/pypotrace --output);
+      PYPOTRACE_OUTPUT=$(conda build -c conda-forge -c defaults -c bioconda recipes/pypotrace --output);
       anaconda -v -t $CONDA_UPLOAD_TOKEN upload "$PYPOTRACE_OUTPUT" -u coastline --force;
     fi
