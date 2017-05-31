@@ -3,6 +3,8 @@ python:
 - '2.7'
 - '3.3'
 - pypy
+env:
+- CONDA_BLD_PATH=~/conda-bld
 install:
   # The Conda + Travis FAQ recommends an apt-get update, but it errors.
   #- sudo apt-get update
@@ -16,7 +18,6 @@ install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
-  - conda config --set conda-build ~/conda-builds
   - conda update -q conda
   - conda info -a
   - conda install conda-build anaconda-client
