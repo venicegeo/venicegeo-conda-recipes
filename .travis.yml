@@ -4,7 +4,8 @@ python:
 - '3.3'
 - pypy
 install:
-  - sudo apt-get update
+  # The Conda + Travis FAQ recommends an apt-get update, but it errors.
+  #- sudo apt-get update
   # Install Anaconda per https://gist.github.com/zshaheen/fe76d1507839ed6fbfbccef6b9c13ed9
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
       wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
