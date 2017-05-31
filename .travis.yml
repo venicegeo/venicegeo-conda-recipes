@@ -18,28 +18,30 @@ install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
+  - conda config --add channels conda-forge
+  - condo config --add channels bioconda
   - conda update -q conda
   - conda info -a
   - conda install conda-build anaconda-client
-  - conda build -c conda-forge -c defaults -c bioconda recipes/libagg
+  - conda build recipes/libagg
   - conda install libagg --use-local
-  - conda build -c conda-forge -c defaults -c bioconda recipes/gippy
+  - conda build recipes/gippy
   - conda install gippy --use-local
-#  - conda build -c conda-forge -c defaults -c bioconda recipes/pypotrace
+#  - conda build recipes/pypotrace
 #  - conda install pypotrace --use-local
 script:
   - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH"
   - echo "TRAVIS_EVENT_TYPE=$TRAVIS_EVENT_TYPE"
 after_success:
   - if [ "$TRAVIS_BRANCH" = "master" ]; then
-      AGG_OUTPUT=$(conda build -c conda-forge -c defaults -c bioconda recipes/libagg --output);
+      AGG_OUTPUT=$(conda build recipes/libagg --output);
       anaconda -v -t $CONDA_UPLOAD_TOKEN upload "$AGG_OUTPUT" -u coastline --force;
     fi
   - if [ "$TRAVIS_BRANCH" = "master" ]; then
-      GIPPY_OUTPUT=$(conda build -c conda-forge -c defaults -c bioconda recipes/gippy --output);
+      GIPPY_OUTPUT=$(conda build recipes/gippy --output);
       anaconda -v -t $CONDA_UPLOAD_TOKEN upload "$GIPPY_OUTPUT" -u coastline --force;
     fi
 #  - if [ "$TRAVIS_BRANCH" = "master" ]; then
-#      PYPOTRACE_OUTPUT=$(conda build -c conda-forge -c defaults -c bioconda recipes/pypotrace --output);
+#      PYPOTRACE_OUTPUT=$(conda build recipes/pypotrace --output);
 #      anaconda -v -t $CONDA_UPLOAD_TOKEN upload "$PYPOTRACE_OUTPUT" -u coastline --force;
 #    fi
