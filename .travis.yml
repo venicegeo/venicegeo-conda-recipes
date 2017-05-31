@@ -5,6 +5,14 @@ python:
 - pypy
 env:
 - CONDA_BLD_PATH=~/conda-bld
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - swig
+before_install:
+  - swig -version
 install:
   # The Conda + Travis FAQ recommends an apt-get update, but it errors.
   #- sudo apt-get update
