@@ -1,6 +1,0 @@
-channels:
-  - local
-  - https://proxy:proxy@nexus.devops.geointservices.io/content/repositories/beachfront-conda/
-  - defaults
-  - conda-forge
-  - bioconda
