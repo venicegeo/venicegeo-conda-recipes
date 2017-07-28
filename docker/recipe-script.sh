@@ -15,7 +15,7 @@ conda config --add channels conda-forge
 echo Adding bioconda
 conda config --add channels bioconda
 echo Adding defaults
-conda config --add channels default
+conda config --add channels defaults
 cd share/recipes
 vendoredFolders=$(ls)
 for f in $vendoredFolders; do
