@@ -1,9 +1,10 @@
 package:
   name: gippy
-  version: 1.0.0b8
+  version: 1.0.0
 
 source:
-  git_url: https://github.com/gipit/gippy
+  path: ../../vendor/gippy
+
 requirements:
   build:
     - gcc
