@@ -6,16 +6,14 @@ mkdir -p ~/miniconda2/conda-bld/linux-64
 mkdir -p ~/miniconda2/conda-bld/noarch
 conda index ~/miniconda2/conda-bld/linux-64
 conda index ~/miniconda2/conda-bld/noarch
-echo Adding local
-conda config --add channels local
-echo Adding nexus
-conda config --add channels https://proxy:proxy@nexus.devops.geointservices.io/content/repositories/beachfront-conda
-echo Adding conda-forge
-conda config --add channels conda-forge
 echo Adding bioconda
 conda config --add channels bioconda
-echo Adding defaults
-conda config --add channels defaults
+echo Adding conda-forge
+conda config --add channels conda-forge
+echo Adding nexus
+conda config --add channels https://proxy:proxy@nexus.devops.geointservices.io/content/repositories/beachfront-conda
+echo Adding local
+conda config --add channels local
 cd share/recipes
 vendoredFolders=$(ls)
 for f in $vendoredFolders; do
