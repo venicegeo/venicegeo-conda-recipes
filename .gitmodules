@@ -6,10 +6,10 @@
 	url = https://github.com/gipit/gippy.git
 [submodule "vendor/pzsvc-exec"]
 	path = vendor/pzsvc-exec
-	url = https://github.com/venicegeo/pzsvc-exec.git
+	url = https://github.com/venicegeo/pzsvc-exec
 [submodule "vendor/pypotrace"]
 	path = vendor/pypotrace
-	url = https://github.com/flupke/pypotrace.git
+	url = https://github.com/flupke/pypotrace
 [submodule "vendor/numpy"]
 	path = vendor/numpy
-	url = https://github.com/numpy/numpy.git
+	url = https://github.com/numpy/numpy
