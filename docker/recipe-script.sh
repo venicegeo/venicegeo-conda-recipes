@@ -1,4 +1,4 @@
-export PATH="$HOME/miniconda2/bin:$PATH"
+export PATH="$HOME/miniconda2/bin:$PATH:/usr/local/go/bin"
 echo Clearing out conda-bld
 rm -rf ~/miniconda2/conda-bld
 echo Rebuilding conda-bld
