@@ -18,6 +18,6 @@ cd share/recipes
 vendoredFolders=$(ls)
 for f in $vendoredFolders; do
   echo $f
-  conda build $f
+  conda build $f --old-build-string
 done
 ls ~/miniconda2/conda-bld/linux-64
