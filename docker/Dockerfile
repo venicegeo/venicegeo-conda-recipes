@@ -10,7 +10,9 @@ RUN yum -y install epel-release && yum -y update &&\
     /usr/bin/bash miniconda.sh -b -p $HOME/miniconda2 &&\
     rm miniconda.sh &&\
     export PATH="$HOME/miniconda2/bin:$PATH" &&\
-    conda install conda-build
+    conda install conda-build &&\
+    curl -LO https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz &&\
+    tar -C /usr/local -xvzf go1.7.linux-amd64.tar.gz
 
 ADD recipe-script.sh /root/
 
