@@ -20,4 +20,11 @@ for f in $vendoredFolders; do
   echo $f
   conda build $f --old-build-string
 done
+cd
+toKeep=$(ls ~/miniconda2/conda-bld/linux-64)
+rm ~/miniconda2/conda-bld/linux-64/repodata*
+for f in $toKeep; do
+  echo $f
+done
+echo
 ls ~/miniconda2/conda-bld/linux-64
