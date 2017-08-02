@@ -39,7 +39,7 @@ mv ~/miniconda2/conda-bld/linux-64/* .
 conda index .
 deleteString="find . -type f"
 for f in $toKeep; do
-  deleteString=$deleteStrng" ! -name $f"
+  deleteString=$deleteString" ! -name $f"
 done
 deleteString=$deleteString" -delete"
 echo Delete cmd
