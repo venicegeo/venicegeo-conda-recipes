@@ -37,6 +37,11 @@ for f in $toKeep; do
 done
 echo
 mv ~/miniconda2/conda-bld/linux-64/* .
-cd .. && conda index linux-64 && cd linux-64
-find . -type f ! -name 'repodata.*' ! -name $toKeep -delete
-ls
+conda index .
+deleteString="find . -type f"
+for f in $toKeep; do
+  deleteString=$deleteStrng" ! -name $f"
+done
+deleteString=$deleteString" -delete"
+echo $deleteString
+$deleteString
