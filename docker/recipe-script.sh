@@ -32,10 +32,9 @@ ls
 echo
 mkdir linux-64 && cd linux-64
 wget -r -l1 -e robots=off -nH -nd --reject="index.html*" --no-parent --no-cookies https://nexus.devops.geointservices.io/content/repositories/beachfront-conda/linux-64/ --user=proxy --password=proxy
-for f in $toKeep; do
-  rm $f
-done
 echo
+echo Moving
+ls ~/miniconda2/conda-bld/linux-64
 mv ~/miniconda2/conda-bld/linux-64/* .
 conda index .
 deleteString="find . -type f"
@@ -43,5 +42,6 @@ for f in $toKeep; do
   deleteString=$deleteStrng" ! -name $f"
 done
 deleteString=$deleteString" -delete"
+echo Delete cmd
 echo $deleteString
 $deleteString
