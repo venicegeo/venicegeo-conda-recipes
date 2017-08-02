@@ -45,7 +45,8 @@ deleteString=$deleteString" -delete"
 echo Delete cmd
 echo $deleteString
 $deleteString
-cd .. && rm -rf share/*
+cd ..
+ls share
 mv linux-64 share/
 ls
 ls share
