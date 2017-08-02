@@ -28,3 +28,11 @@ for f in $toKeep; do
 done
 echo
 ls ~/miniconda2/conda-bld/linux-64
+echo
+ls
+echo
+mkdir linux-64 && cd linux-64
+wget -r -l1 -e robots=off -nH -nd --reject="index.html*" --no-parent --no-cookies https://nexus.devops.geointservices.io/content/repositories/beachfront-conda/linux-64/ --user=proxy --password=proxy
+cd ..
+echo
+ls linux-64
