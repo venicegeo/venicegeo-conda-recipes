@@ -22,7 +22,6 @@ for f in $vendoredFolders; do
 done
 cd
 toKeep=$(ls ~/miniconda2/conda-bld/linux-64)
-rm ~/miniconda2/conda-bld/linux-64/repodata*
 for f in $toKeep; do
   echo $f
 done
@@ -33,6 +32,11 @@ ls
 echo
 mkdir linux-64 && cd linux-64
 wget -r -l1 -e robots=off -nH -nd --reject="index.html*" --no-parent --no-cookies https://nexus.devops.geointservices.io/content/repositories/beachfront-conda/linux-64/ --user=proxy --password=proxy
-cd ..
+for f in $toKeep; do
+  rm $f
+done
 echo
-ls linux-64
+mv ~/miniconda2/conda-bld/linux-64/* .
+cd .. && conda index linux-64 && cd linux-64
+find . -type f ! -name 'repodata.*' ! -name $toKeep -delete
+ls
