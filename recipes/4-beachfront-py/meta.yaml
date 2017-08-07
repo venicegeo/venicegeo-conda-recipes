@@ -8,22 +8,21 @@ requirements:
   build:
     - gcc
     - python
-    - gippy
-    - pypotrace
+    - gippy 1.0.0
+    - pypotrace 0.1.3
     - requests 2.11.1
-    - fiona
-    - pyproj
-    - six
-    - setuptools
+    - fiona 1.7.4
+    - pyproj 1.9.5.1
+    - six 1.10.0
 
   run:
     - python
-    - gippy
-    - pypotrace
+    - gippy 1.0.0
+    - pypotrace 0.1.3
     - requests 2.11.1
-    - fiona
-    - pyproj
-    - six
+    - fiona 1.7.4
+    - pyproj 1.9.5.1
+    - six 1.10.0
 
 build:
   string: py{{py}}_0

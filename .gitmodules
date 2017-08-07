@@ -13,3 +13,6 @@
 [submodule "vendor/numpy"]
 	path = vendor/numpy
 	url = https://github.com/numpy/numpy
+[submodule "vendor/bfalg_WTA"]
+	path = vendor/bfalg_WTA
+	url = https://github.com/venicegeo/bfalg_WTA
