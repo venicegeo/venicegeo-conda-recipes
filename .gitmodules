@@ -16,3 +16,6 @@
 [submodule "vendor/bfalg_WTA"]
 	path = vendor/bfalg_WTA
 	url = https://github.com/venicegeo/bfalg_WTA
+[submodule "vendor/bfalg-ndwi"]
+	path = vendor/bfalg-ndwi
+	url = https://github.com/venicegeo/bfalg-ndwi
