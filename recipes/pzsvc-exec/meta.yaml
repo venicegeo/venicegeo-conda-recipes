@@ -5,6 +5,9 @@ package:
 source:
   path: ../../vendor/pzsvc-exec
 
+build:
+  binary_relocation: False
+
 about:
   home: https://github.com/venicegeo/pzsvc-exec
   summary: "Serve command-line programs to Piazza, based on the contents of a config file."
