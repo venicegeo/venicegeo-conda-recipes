@@ -17,8 +17,8 @@ conda config --add channels local
 cd share/recipes
 vendoredFolders=$(ls)
 for f in $vendoredFolders; do
-  echo $f
-  conda build $f --old-build-string
+  echo "Starting build for $f"
+  conda build $f --old-build-string -q --prefix-length 0
 done
 cd
 toKeep=$(ls ~/miniconda2/conda-bld/linux-64)
