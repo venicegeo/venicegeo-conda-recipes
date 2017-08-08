@@ -7,6 +7,7 @@
 [submodule "vendor/pzsvc-exec"]
 	path = vendor/pzsvc-exec
 	url = https://github.com/venicegeo/pzsvc-exec
+	branch = master
 [submodule "vendor/pypotrace"]
 	path = vendor/pypotrace
 	url = https://github.com/flupke/pypotrace
@@ -16,6 +17,8 @@
 [submodule "vendor/bfalg_WTA"]
 	path = vendor/bfalg_WTA
 	url = https://github.com/venicegeo/bfalg_WTA
+	branch = fiona_test
 [submodule "vendor/bfalg-ndwi"]
 	path = vendor/bfalg-ndwi
 	url = https://github.com/venicegeo/bfalg-ndwi
+	branch = master
