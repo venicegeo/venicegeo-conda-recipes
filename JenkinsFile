@@ -6,9 +6,8 @@ node {
     stage("Setup") {
         deleteDir()
         git url: "https://github.com/venicegeo/venicegeo-conda-recipes", branch: "master"
-        sh"""git submodule init
-          git submodule update"""
-        sh "ls"
+        sh "./init.sh"
+        sh "git submodule"
     }
     
     stage("Docker") {
