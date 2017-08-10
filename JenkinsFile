@@ -22,7 +22,7 @@ node {
     
     stage("Nexus Deploy") {
         dir ("docker/share") {
-            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'ldap_baxtersh', usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: credentialsId: "${env.ARTIFACT_STORAGE_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
                 sh "bash nexus-deploy.sh"
             }
         }
