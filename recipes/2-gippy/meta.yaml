@@ -9,17 +9,14 @@ requirements:
   build:
     - gcc 4.8.5
     - python 2.7.13
-    - numpy 1.12.0
+    - numpy 1.12.0 py27_blas_openblas_200
     - libgdal 2.1.0
     - potrace 1.11
     - wheel 0.29.0
 
   run:
     - python 2.7.13
-    - numpy 1.12.0
-    - fiona 1.7.4 
-    - jpeg 9b
-    - potrace 1.11
+    - numpy 1.12.0 py27_blas_openblas_200
 
 build:
   string: py{{py}}_0
