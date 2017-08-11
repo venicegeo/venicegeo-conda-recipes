@@ -7,28 +7,20 @@ source:
 requirements:
   build:
     - gcc
-    - numpy 1.12.0
-    - gippy
+    - python 2.7.13 
     - beachfront
-    - pypotrace
     - scikit-image 0.13.0
     - scikit-learn 0.18.1
     - scipy 0.19.0
-    - pyproj 1.9.5.1
-    - requests 2.11.1
-    - fiona 1.7.4
+    - numpy 1.12.0 py27_blas_openblas_200
 
   run:
-    - numpy 1.12.0
-    - gippy
+    - python 2.7.13 
     - beachfront
-    - pypotrace
     - scikit-image 0.13.0
     - scikit-learn 0.18.1
     - scipy 0.19.0
-    - pyproj 1.9.5.1
-    - requests 2.11.1
-    - fiona 1.7.4
+    - numpy 1.12.0 py27_blas_openblas_200
 
 build:
   preserve_egg_dir: True
