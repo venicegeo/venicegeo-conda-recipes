@@ -10,8 +10,8 @@ requirements:
     - python 2.7.13
   run:
     - python 2.7.13
-    - gippy 1.0.0
     - beachfront
+    - numpy 1.12.0 py27_blas_openblas_200
 
 build:
   preserve_egg_dir: True
