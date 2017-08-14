@@ -1,0 +1,28 @@
+package:
+  name: bfalg-shape
+  version: 1.0
+
+source:
+  path: ../../vendor/bfalg-shape
+
+requirements:
+  build:
+    - python 2.7.13
+    - pillow 4.2.1
+    - pyproj 1.9.5.1
+    - gdal 2.1.3
+    - gippy 1.0.0
+    - requests 2.18.1
+  run:
+    - python 2.7.13
+    - pillow 4.2.1
+    - pyproj 1.9.5.1
+    - gdal 2.1.3
+    - gippy 1.0.0
+    - requests 2.18.1
+    - numpy 1.12.0 py27_blas_openblas_200
+
+about:
+  home: https://github.com/venicegeo/bfalg-shape
+  summary: "A test algorithm"
+  license: Apache 2.0

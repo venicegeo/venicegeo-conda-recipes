@@ -26,3 +26,7 @@
 	path = vendor/bfalg-ndwi
 	url = https://github.com/venicegeo/bfalg-ndwi
 	checkout = master
+[submodule "vendor/bfalg-shape"]
+	path = vendor/bfalg-shape
+	url = https://github.com/venicegeo/bfalg-shape
+	checkout = master
