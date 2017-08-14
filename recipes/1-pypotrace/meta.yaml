@@ -13,8 +13,9 @@ requirements:
     - potrace 1.11
   run:
     - python 2.7.13
-    - libagg 2.5.0
     - numpy 1.12.0 py27_blas_openblas_200
+    - libagg 2.5.0
+    - potrace 1.11
 
 build:
   string: py{{py}}_0
