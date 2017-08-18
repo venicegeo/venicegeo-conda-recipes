@@ -25,7 +25,7 @@
 [submodule "vendor/bfalg-ndwi"]
 	path = vendor/bfalg-ndwi
 	url = https://github.com/venicegeo/bfalg-ndwi
-	checkout = master
+	checkout = pipeline-refactor
 [submodule "vendor/bfalg-shape"]
 	path = vendor/bfalg-shape
 	url = https://github.com/venicegeo/bfalg-shape
