@@ -22,6 +22,10 @@ requirements:
     - requests 2.18.1
     - numpy 1.12.0 py27_blas_openblas_200
 
+test:
+  files:
+    - test.tif
+
 about:
   home: https://github.com/venicegeo/bfalg-shape
   summary: "A test algorithm"
