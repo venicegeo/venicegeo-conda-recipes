@@ -19,7 +19,8 @@ node {
           mv recipes docker/share/
           mv  vendor docker/share/"""
         dir("docker") {
-            sh """docker-compose rm -f --all
+            sh """sed -i "s/SED_CHANNEL/$CONDA_CHANNEL_URL/g" recipe-script.sh
+	      docker-compose rm -f --all
               docker-compose up --build --no-color"""
         }
     }
