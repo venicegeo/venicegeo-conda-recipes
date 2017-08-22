@@ -2,10 +2,14 @@
 
 node {
     def root = pwd()
-
-    stage("Setup") {
-        deleteDir()
-        git url: "https://github.com/venicegeo/venicegeo-conda-recipes", branch: "master"
+    
+	stage("Setup") {
+			deleteDir()
+			if(env.GITLAB_CREDS) {
+			  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
+			} else {
+			  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
+			}        
         sh "./init.sh"
         sh "git submodule"
     }
@@ -23,7 +27,10 @@ node {
     stage("Nexus Deploy") {
         dir ("docker/share") {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_STORAGE_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
-                sh "bash nexus-deploy.sh"
+                //sh "bash nexus-deploy.sh"
+                sh """
+                  for f in $(find linux-64 -type f); do echo "$f"; done
+                """
             }
         }
     }
