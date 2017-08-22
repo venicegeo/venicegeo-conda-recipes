@@ -10,7 +10,8 @@ conda index ~/miniconda2/conda-bld/noarch
 #conda config --add channels bioconda
 #echo Adding conda-forge
 #conda config --add channels conda-forge
-#echo Adding nexus
+echo Adding nexus
+conda config --add channels CONDA_CHANNEL
 #conda config --add channels https://proxy:proxy@nexus.devops.geointservices.io/content/repositories/beachfront-conda
 #echo Adding local
 #conda config --add channels local
