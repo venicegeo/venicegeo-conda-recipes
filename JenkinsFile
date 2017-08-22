@@ -19,10 +19,15 @@ node {
           mv recipes docker/share/
           mv  vendor docker/share/"""
         dir("docker") {
-            sh """sed -i "s*SED_CHANNEL*$CONDA_CHANNEL_URL*g" recipe-script.sh
-	      docker-compose rm -f --all
-              docker-compose up --build --no-color"""
-        }
+	    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
+                sh """
+		  sed -i "s*SED_CHANNEL*$CONDA_CHANNEL_URL*g" recipe-script.sh
+		  sed -i "s*SED_USER*$NEXUSUSER*g" recipe-script.sh
+		  sed -i "s*SED_PASSWORD*$NEXUSPASS*g" recipe-script.sh
+	          docker-compose rm -f --all
+                  docker-compose up --build --no-color"""
+	    }
+	}
     }
     
     stage("Nexus Deploy") {
