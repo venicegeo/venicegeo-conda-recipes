@@ -21,6 +21,7 @@ node {
         dir("docker") {
 	    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
                 sh """
+		  sh 'sed -i "s*CONDA_CHANNEL*`echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`*g" recipe-script.sh'
 		  sed -i "s*SED_CHANNEL*$CONDA_CHANNEL_URL*g" recipe-script.sh
 		  sed -i "s*SED_USER*$NEXUSUSER*g" recipe-script.sh
 		  sed -i "s*SED_PASSWORD*$NEXUSPASS*g" recipe-script.sh
