@@ -29,7 +29,7 @@ node {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_STORAGE_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
                 //sh "bash nexus-deploy.sh"
                 sh """
-                  for f in $(find linux-64 -type f); do echo "${f}"; done
+                  for f in \$(find linux-64 -type f); do echo "${f}"; done
                 """
             }
         }
