@@ -31,7 +31,7 @@ node {
 		//def fileList = sh(script: """git describe --long --tags --always | sed 's/\\./-/'g""", returnStdout: true).trim()
                 //sh """
 		    sh 'echo $CONDA_CHANNEL_URL'
-		    sh 'for f in $(find linux-64 -type f); do echo "$CONDA_CHANNEL_URL$f"; echo Test; done'
+		    sh 'for f in $(find linux-64 -type f); do echo "Sending $f to $CONDA_CHANNEL_URL$f"; curl -T $f -u $NEXUSUSER:$NEXUSPASS $CONDA_CHANNEL_URL/$f; done'
                 //"""
             }
         }
