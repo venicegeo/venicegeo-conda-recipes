@@ -28,9 +28,10 @@ node {
         dir ("docker/share") {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_STORAGE_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
                 //sh "bash nexus-deploy.sh"
-                sh """
-                  for f in \$(find linux-64 -type f); do echo "${f}"; done
-                """
+		//def fileList = sh(script: """git describe --long --tags --always | sed 's/\\./-/'g""", returnStdout: true).trim()
+                //sh """
+                sh 'for f in $(find linux-64 -type f); do echo "$f"; done'
+                //"""
             }
         }
     }
