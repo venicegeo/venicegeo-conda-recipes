@@ -30,7 +30,7 @@ node {
                 //sh "bash nexus-deploy.sh"
 		//def fileList = sh(script: """git describe --long --tags --always | sed 's/\\./-/'g""", returnStdout: true).trim()
                 //sh """
-                sh 'for f in $(find linux-64 -type f); do echo "$f"; done'
+		    sh 'for f in $(find linux-64 -type f); echo Sending "$f" to $CONDA_CHANNEL_URL/$f; curl -T "$f" -u $NEXUSUSER:$NEXUSPASS $CONDA_CHANNEL_URL/$f; done'
                 //"""
             }
         }
