@@ -27,12 +27,7 @@ node {
     stage("Nexus Deploy") {
         dir ("docker/share") {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_STORAGE_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
-                //sh "bash nexus-deploy.sh"
-		//def fileList = sh(script: """git describe --long --tags --always | sed 's/\\./-/'g""", returnStdout: true).trim()
-                //sh """
-		    sh 'echo $CONDA_CHANNEL_URL'
-		    sh 'for f in $(find linux-64 -type f); do echo "Sending $f to $CONDA_CHANNEL_URL$f"; curl -T $f -u $NEXUSUSER:$NEXUSPASS $CONDA_CHANNEL_URL/$f; done'
-                //"""
+		sh 'for f in $(find linux-64 -type f); do curl -T $f -u $NEXUSUSER:$NEXUSPASS $CONDA_CHANNEL_URL/$f; done'
             }
         }
     }
