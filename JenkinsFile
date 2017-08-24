@@ -4,14 +4,18 @@ node {
     def root = pwd()
     
 	stage("Setup") {
-			deleteDir()
-			if(env.GITLAB_CREDS) {
-			  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
-			} else {
-			  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
-			}        
+		deleteDir()
+		if(env.GITLAB_CREDS) {
+		  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
+		} else {
+		  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
+		}        
         sh "./init.sh"
         sh "git submodule"
+		sh """
+          bash miniconda.sh -b -p $root/miniconda2
+          rm miniconda.sh
+		"""
     }
     
     stage("Docker") {
