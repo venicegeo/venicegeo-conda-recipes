@@ -2,22 +2,10 @@
 	path = vendor/beachfront-py
 	url = https://github.com/venicegeo/beachfront-py.git
 	checkout = master
-[submodule "vendor/gippy"]
-	path = vendor/gippy
-	url = https://github.com/gipit/gippy.git
-	checkout = d7537453d1edd0262f9fd16e70dfb0b4c8d0cf35
 [submodule "vendor/pzsvc-exec"]
 	path = vendor/pzsvc-exec
 	url = https://github.com/venicegeo/pzsvc-exec
 	checkout = master
-[submodule "vendor/pypotrace"]
-	path = vendor/pypotrace
-	url = https://github.com/flupke/pypotrace
-	checkout = acbcf9ab1769408c9e5a5ee4d22ab21d3a8e5f6c
-[submodule "vendor/numpy"]
-	path = vendor/numpy
-	url = https://github.com/numpy/numpy
-	checkout = 561f1accf861ad8606ea2dd723d2be2b09a2dffa
 [submodule "vendor/bfalg_WTA"]
 	path = vendor/bfalg_WTA
 	url = https://github.com/venicegeo/bfalg_WTA
