@@ -2,7 +2,8 @@
 
 node {
     def root = pwd()
-    
+    def golangTool = tool 'golang_1.7'
+
 	stage("Setup") {
 		deleteDir()
 		if(env.GITLAB_CREDS) {
@@ -13,26 +14,25 @@ node {
         sh "./init.sh"
         sh "git submodule"
 		sh """
+		  curl -L https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -o miniconda.sh
           bash miniconda.sh -b -p $root/miniconda2
           rm miniconda.sh
 		"""
     }
     
-    stage("Docker") {
-        sh """mkdir -p docker/share
-          mv recipes docker/share/
-          mv vendor docker/share/"""
-        dir("docker") {
-	    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
-                sh """
-		  sed -i "s*CONDA_CHANNEL*`echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`*g" recipe-script.sh
-		  sed -i "s*SED_CHANNEL*$CONDA_CHANNEL_URL*g" recipe-script.sh
-		  sed -i "s*SED_USER*$NEXUSUSER*g" recipe-script.sh
-		  sed -i "s*SED_PASSWORD*$NEXUSPASS*g" recipe-script.sh
-	          docker-compose rm -f --all
-                  docker-compose up --build --no-color"""
+	stage("Conda Build") {
+		withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
+			sh """
+			  sed -i "s*SED_CREDS_CHANNEL*`echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`*g" recipe-script.sh
+			  sed -i "s*SED_CHANNEL*$CONDA_CHANNEL_URL*g" recipe-script.sh
+			  sed -i "s*SED_USER*$NEXUSUSER*g" recipe-script.sh
+			  sed -i "s*SED_PASS*$NEXUSPASS*g" recipe-script.sh
+			  sed -i "s*SED_LOC*$root*g" recipe-script.sh
+			  ./recipe-script.sh
+			"""
+			sh "ls"
+			error("stop")
 	    }
-	}
     }
     
     stage("Nexus Deploy") {

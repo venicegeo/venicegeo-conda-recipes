@@ -1,14 +1,15 @@
 echo Clearing out conda-bld
 rm -rf SED_LOC/miniconda2/conda-bld
+echo Removing defaults
+conda config --remove channels defaults
+echo Adding nexus
+conda config --add channels SED_CREDS_CHANNEL
+conda install conda-build -y
 echo Rebuilding conda-bld
 mkdir -p SED_LOC/miniconda2/conda-bld/linux-64
 mkdir -p SED_LOC/miniconda2/conda-bld/noarch
 conda index SED_LOC/miniconda2/conda-bld/linux-64
 conda index SED_LOC/miniconda2/conda-bld/noarch
-echo Removing defaults
-conda config --remove channels defaults
-echo Adding nexus
-conda config --add channels SED_CREDS_CHANNEL
 echo Adding local
 conda config --add channels local
 cd recipes
