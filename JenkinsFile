@@ -31,7 +31,8 @@ node {
 			  export PATH="$root/miniconda2/bin:$PATH"
 			  bash recipe-script.sh
 			"""
-			sh "ls"
+			sh "ls linux-64"
+			sh "rm -rf $root/miniconda2"
 			error("stop")
 	    }
     }
