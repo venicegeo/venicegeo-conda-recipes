@@ -28,7 +28,7 @@ node {
 			  sed -i "s*SED_USER*$NEXUSUSER*g" recipe-script.sh
 			  sed -i "s*SED_PASS*$NEXUSPASS*g" recipe-script.sh
 			  sed -i "s*SED_LOC*$root*g" recipe-script.sh
-			  ./recipe-script.sh
+			  bash recipe-script.sh
 			"""
 			sh "ls"
 			error("stop")
