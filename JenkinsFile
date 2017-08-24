@@ -6,13 +6,14 @@ node {
 
 	stage("Setup") {
 		deleteDir()
+		sh "ls -a"
 		if(env.GITLAB_CREDS) {
 		  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
 		} else {
 		  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
 		}        
-        sh "./init.sh"
-        sh "git submodule"
+		sh "./init.sh"
+		sh "git submodule"
 		sh """
 		  curl -L https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -o miniconda.sh
 		  bash miniconda.sh -b -p $root/miniconda2
