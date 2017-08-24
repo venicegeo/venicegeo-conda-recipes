@@ -15,8 +15,8 @@ node {
         sh "git submodule"
 		sh """
 		  curl -L https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh -o miniconda.sh
-          bash miniconda.sh -b -p $root/miniconda2
-          rm miniconda.sh
+		  bash miniconda.sh -b -p $root/miniconda2
+		  rm miniconda.sh
 		"""
     }
     
@@ -28,6 +28,7 @@ node {
 			  sed -i "s*SED_USER*$NEXUSUSER*g" recipe-script.sh
 			  sed -i "s*SED_PASS*$NEXUSPASS*g" recipe-script.sh
 			  sed -i "s*SED_LOC*$root*g" recipe-script.sh
+			  export PATH="$root/miniconda2/bin:$PATH"
 			  bash recipe-script.sh
 			"""
 			sh "ls"
