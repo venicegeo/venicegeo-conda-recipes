@@ -4,7 +4,7 @@ echo Removing defaults
 conda config --remove channels defaults
 echo Adding nexus
 conda config --add channels SED_CREDS_CHANNEL
-conda install conda-build -y
+conda install conda-build -y -q
 echo Rebuilding conda-bld
 mkdir -p SED_LOC/miniconda2/conda-bld/linux-64
 mkdir -p SED_LOC/miniconda2/conda-bld/noarch
