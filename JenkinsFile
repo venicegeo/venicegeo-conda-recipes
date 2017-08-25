@@ -11,8 +11,12 @@ node {
 		} else {
 		  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
 		}        
-		sh "./init.sh"
-		sh "git submodule"
+		sh """
+		  git submodule init
+		  git submodule update
+		  git submodule foreach -q --recursive 'git checkout $(git config -f $toplevel/.gitmodules submodule.$name.checkout)'
+		  git submodule
+		"""
 		sh """
 		  rm -f $HOME/.condarc
 		  curl -L https://repo.continuum.io/miniconda/Miniconda2-4.3.21-Linux-x86_64.sh -o miniconda.sh
