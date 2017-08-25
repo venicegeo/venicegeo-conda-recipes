@@ -33,10 +33,10 @@ node {
 				  sed -i "s*SED_USER*$NEXUSUSER*g" recipe-script.sh
 				  sed -i "s*SED_PASS*$NEXUSPASS*g" recipe-script.sh
 				  sed -i "s*SED_LOC*$root*g" recipe-script.sh
+				  go env
+				  echo $GOROOT
 				  bash recipe-script.sh
 				"""
-				sh "go env"
-				sh "echo $GOROOT"
 				sh "ls linux-64"
 				error("stop")
 			}
