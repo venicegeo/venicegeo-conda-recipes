@@ -53,7 +53,7 @@ node {
 				    conda build $f --old-build-string -q
 				  done
 				  cd ..
-				  toKeep=$(ls $root/miniconda2/conda-bld/linux-64)
+				  toKeep=\$(ls $root/miniconda2/conda-bld/linux-64)
 				  for f in $toKeep; do
 				    echo $f
 				  done
