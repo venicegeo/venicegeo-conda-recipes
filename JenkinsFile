@@ -22,21 +22,24 @@ node {
     }
     
 	stage("Conda Build") {
-		withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
-			sh """
-			  sed -i "s*SED_CREDS_CHANNEL*`echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`*g" recipe-script.sh
-			  sed -i "s*SED_CHANNEL*$CONDA_CHANNEL_URL*g" recipe-script.sh
-			  sed -i "s*SED_USER*$NEXUSUSER*g" recipe-script.sh
-			  sed -i "s*SED_PASS*$NEXUSPASS*g" recipe-script.sh
-			  sed -i "s*SED_LOC*$root*g" recipe-script.sh
-			  export PATH="$root/miniconda2/bin:$PATH"
-			  bash recipe-script.sh
-			"""
-			sh "ls linux-64"
-			sh "rm -rf $root/miniconda2"
-			error("stop")
-	    }
-    }
+		withEnv([
+		  "PATH+=${golangTool}/bin:${root}/miniconda2/bin",
+		  "GOROOT=${golangTool}",
+		]) {
+			withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
+				sh """
+				  sed -i "s*SED_CREDS_CHANNEL*`echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`*g" recipe-script.sh
+				  sed -i "s*SED_CHANNEL*$CONDA_CHANNEL_URL*g" recipe-script.sh
+				  sed -i "s*SED_USER*$NEXUSUSER*g" recipe-script.sh
+				  sed -i "s*SED_PASS*$NEXUSPASS*g" recipe-script.sh
+				  sed -i "s*SED_LOC*$root*g" recipe-script.sh
+				  bash recipe-script.sh
+				"""
+				sh "ls linux-64"
+				error("stop")
+			}
+		}
+	}
     
     stage("Nexus Deploy") {
         dir ("docker/share") {
