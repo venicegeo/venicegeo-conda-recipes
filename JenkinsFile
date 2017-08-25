@@ -37,17 +37,13 @@ node {
 				  echo $GOROOT
 				  bash recipe-script.sh
 				"""
-				sh "ls linux-64"
-				error("stop")
 			}
 		}
 	}
     
     stage("Nexus Deploy") {
-        dir ("docker/share") {
-            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_STORAGE_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_STORAGE_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
 		sh 'for f in $(find linux-64 -type f); do curl -T $f -u $NEXUSUSER:$NEXUSPASS $CONDA_CHANNEL_URL/$f; done'
-            }
         }
     }
 }
