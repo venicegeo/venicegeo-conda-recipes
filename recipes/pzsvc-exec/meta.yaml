@@ -7,6 +7,8 @@ source:
 
 build:
   binary_relocation: False
+  script_env:
+   - GOROOT
 
 about:
   home: https://github.com/venicegeo/pzsvc-exec
