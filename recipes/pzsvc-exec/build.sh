@@ -1,5 +1,6 @@
 #!/bin/bash
 
+printenv
 export GOPATH=$PWD
 export GOBIN=$GOPATH/bin
 export GOROOT=$golangTool
