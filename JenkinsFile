@@ -35,6 +35,8 @@ node {
 				  sed -i "s*SED_LOC*$root*g" recipe-script.sh
 				  bash recipe-script.sh
 				"""
+				sh "go env"
+				sh "echo $GOROOT"
 				sh "ls linux-64"
 				error("stop")
 			}
