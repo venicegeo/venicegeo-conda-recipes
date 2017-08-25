@@ -47,7 +47,7 @@ node {
 				  echo Adding local
 				  conda config --add channels local
 				  cd recipes
-				  vendoredFolders=$(ls)
+				  vendoredFolders=\$(ls)
 				  for f in $vendoredFolders; do
 				    echo "Starting build for $f"
 				    conda build $f --old-build-string -q
