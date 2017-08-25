@@ -2,7 +2,6 @@
 
 export GOPATH=$PWD
 export GOBIN=$GOPATH/bin
-export GOROOT=/usr/local/go
 export PATH=$GOROOT/bin:$PATH
 mkdir -p src/github.com/venicegeo/pzsvc-exec
 mv `ls | grep -v src` src/github.com/venicegeo/pzsvc-exec/ && mkdir bin
