@@ -48,25 +48,25 @@ node {
 				  conda config --add channels local
 				  cd recipes
 				  vendoredFolders=\$(ls)
-				  for f in $vendoredFolders; do
-				    echo "Starting build for $f"
-				    conda build $f --old-build-string -q
+				  for f in \$vendoredFolders; do
+				    echo "Starting build for \$f"
+				    conda build \$f --old-build-string -q
 				  done
 				  cd ..
 				  toKeep=\$(ls $root/miniconda2/conda-bld/linux-64)
-				  for f in $toKeep; do
-				    echo $f
+				  for f in \$toKeep; do
+				    echo \$f
 				  done
 				  mkdir linux-64 && cd linux-64
 				  wget -q -r -l1 -e robots=off -nH -nd --reject="index.html*" --no-parent --no-cookies $CONDA_CHANNEL_URL/linux-64/ --user=$NEXUSUSER --password=$NEXUSPASS
 				  mv $root/miniconda2/conda-bld/linux-64/* .
 				  conda index .
 				  deleteString="find . -type f"
-				  for f in $toKeep; do
-				    deleteString=$deleteString" ! -name $f"
+				  for f in \$toKeep; do
+				    deleteString=\$deleteString" ! -name \$f"
 				  done
-				  deleteString=$deleteString" -delete"
-				  $deleteString
+				  deleteString=\$deleteString" -delete"
+				  \$deleteString
 				"""
 			}
 		}
