@@ -8,6 +8,7 @@ node {
 		deleteDir()
 		if(env.GITLAB_CREDS) {
 		  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
+			sh "sed -i 's,https://github.com/venicegeo/,${params.GITLAB_BASE_URL},g' .gitmodules"
 		} else {
 		  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
 		}        
