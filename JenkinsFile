@@ -1,81 +1,78 @@
 #!/usr/bin/groovy
 
 node {
-    def root = pwd()
-    def golangTool = tool 'golang_1.7'
+  def root = pwd()
+  def golangTool = tool 'golang_1.7'
 
-	stage("Setup") {
-		deleteDir()
-		if(env.GITLAB_CREDS) {
-		  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
-			sh "sed -i 's,https://github.com/venicegeo/,${params.GIT_BASE_URL},g' .gitmodules"
-		} else {
-		  	git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
-		}
-		sh """
-		  git submodule init
-		  git submodule update
-		  git submodule foreach -q --recursive 'git checkout \$(git config -f \$toplevel/.gitmodules submodule.\$name.checkout)'
-		  git submodule
-		"""
-		sh """
-		  rm -f $HOME/.condarc
-		  curl -L https://repo.continuum.io/miniconda/Miniconda2-4.3.21-Linux-x86_64.sh -o miniconda.sh
-		  bash miniconda.sh -b -p $root/miniconda2
-		  rm miniconda.sh
-		"""
+  stage("Setup") {
+    deleteDir()
+    if(env.GITLAB_CREDS) {
+      git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
+      sh "sed -i 's,https://github.com/venicegeo/,${params.GIT_BASE_URL},g' .gitmodules"
+      checkout([$class: 'GitSCM', branches: [[name: '${env.GIT_BRANCH']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '${env.GITLAB_CREDS', url: '${env.GIT_URL']]])
+    } else {
+      git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
+      sh "git submodule init"
+      sh "git submodule update"
+      sh "git submodule foreach -q --recursive 'git checkout \$(git config -f \$toplevel/.gitmodules submodule.\$name.checkout)'"
+      sh "git submodule"
     }
+      sh "rm -f $HOME/.condarc"
+      sh "curl -L https://repo.continuum.io/miniconda/Miniconda2-4.3.21-Linux-x86_64.sh -o miniconda.sh"
+      sh "bash miniconda.sh -b -p $root/miniconda2"
+      sh "rm miniconda.sh"
 
-	stage("Conda Build") {
-		withEnv([
-		  "PATH+=${golangTool}/bin:${root}/miniconda2/bin",
-		  "GOROOT=${golangTool}",
-		]) {
-			withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
-				sh """
-				  echo Clearing out conda-bld
-				  rm -rf $root/miniconda2/conda-bld
-				  echo Removing defaults
-				  conda config --remove channels defaults
-				  echo Adding nexus
-				  conda config --add channels `echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`
-				  conda install conda-build -y -q
-				  echo Rebuilding conda-bld
-				  mkdir -p $root/miniconda2/conda-bld/linux-64
-				  mkdir -p $root/miniconda2/conda-bld/noarch
-				  conda index $root/miniconda2/conda-bld/linux-64
-				  conda index $root/miniconda2/conda-bld/noarch
-				  echo Adding local
-				  conda config --add channels local
-				  cd recipes
-				  vendoredFolders=\$(ls)
-				  for f in \$vendoredFolders; do
-				    echo "Starting build for \$f"
-				    conda build \$f --old-build-string -q
-				  done
-				  cd ..
-				  toKeep=\$(ls $root/miniconda2/conda-bld/linux-64)
-				  for f in \$toKeep; do
-				    echo \$f
-				  done
-				  mkdir linux-64 && cd linux-64
-				  wget -q -r -l1 -e robots=off -nH -nd --reject="index.html*" --no-parent --no-cookies $CONDA_CHANNEL_URL/linux-64/ --user=$NEXUSUSER --password=$NEXUSPASS
-				  mv $root/miniconda2/conda-bld/linux-64/* .
-				  conda index .
-				  deleteString="find . -type f"
-				  for f in \$toKeep; do
-				    deleteString=\$deleteString" ! -name \$f"
-				  done
-				  deleteString=\$deleteString" -delete"
-				  \$deleteString
-				"""
-			}
-		}
-	}
-
-    stage("Nexus Deploy") {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_STORAGE_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
-		sh 'for f in $(find linux-64 -type f); do curl -T $f -u $NEXUSUSER:$NEXUSPASS $CONDA_CHANNEL_URL/$f; done'
+  stage("Conda Build") {
+    withEnv([
+      "PATH+=${golangTool}/bin:${root}/miniconda2/bin",
+      "GOROOT=${golangTool}",
+    ]) {
+      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
+      sh """
+         echo Clearing out conda-bld
+         rm -rf $root/miniconda2/conda-bld
+         echo Removing defaults
+         conda config --remove channels defaults
+         echo Adding nexus
+         conda config --add channels `echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`
+         conda install conda-build -y -q
+         echo Rebuilding conda-bld
+         mkdir -p $root/miniconda2/conda-bld/linux-64
+         mkdir -p $root/miniconda2/conda-bld/noarch
+         conda index $root/miniconda2/conda-bld/linux-64
+         conda index $root/miniconda2/conda-bld/noarch
+         echo Adding local
+         conda config --add channels local
+         cd recipes
+         vendoredFolders=\$(ls)
+         for f in \$vendoredFolders; do
+           echo "Starting build for \$f"
+           conda build \$f --old-build-string -q
+         done
+         cd ..
+         toKeep=\$(ls $root/miniconda2/conda-bld/linux-64)
+         for f in \$toKeep; do
+           echo \$f
+         done
+         mkdir linux-64 && cd linux-64
+         wget -q -r -l1 -e robots=off -nH -nd --reject="index.html*" --no-parent --no-cookies $CONDA_CHANNEL_URL/linux-64/ --user=$NEXUSUSER --password=$NEXUSPASS
+         mv $root/miniconda2/conda-bld/linux-64/* .
+         conda index .
+         deleteString="find . -type f"
+         for f in \$toKeep; do
+           deleteString=\$deleteString" ! -name \$f"
+         done
+         deleteString=\$deleteString" -delete"
+         \$deleteString
+         """
         }
-    }
+     }
+   }
+
+  stage("Nexus Deploy") {
+      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_STORAGE_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
+        sh 'for f in $(find linux-64 -type f); do curl -T $f -u $NEXUSUSER:$NEXUSPASS $CONDA_CHANNEL_URL/$f; done'
+      }
+  }
 }
+
