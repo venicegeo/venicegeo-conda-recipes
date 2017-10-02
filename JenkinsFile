@@ -19,7 +19,7 @@ node {
     }
       sh "rm -f $HOME/.condarc"
       sh "curl -L https://repo.continuum.io/miniconda/Miniconda2-4.3.21-Linux-x86_64.sh -o miniconda.sh"
-      sh "bash miniconda.sh -b -p $root/miniconda2"
+      sh "bash miniconda.sh -b -p ${root}/miniconda2"
       sh "rm miniconda.sh"
   }
 
@@ -31,17 +31,17 @@ node {
       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
       sh """
          echo Clearing out conda-bld
-         rm -rf $root/miniconda2/conda-bld
+         rm -rf ${root}/miniconda2/conda-bld
          echo Removing defaults
          conda config --remove channels defaults
          echo Adding nexus
          conda config --add channels `echo "${env.CONDA_CHANNEL_URL}" | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`
          conda install conda-build -y -q
          echo Rebuilding conda-bld
-         mkdir -p $root/miniconda2/conda-bld/linux-64
-         mkdir -p $root/miniconda2/conda-bld/noarch
-         conda index $root/miniconda2/conda-bld/linux-64
-         conda index $root/miniconda2/conda-bld/noarch
+         mkdir -p ${root}/miniconda2/conda-bld/linux-64
+         mkdir -p ${root}/miniconda2/conda-bld/noarch
+         conda index ${root}/miniconda2/conda-bld/linux-64
+         conda index ${root}/miniconda2/conda-bld/noarch
          echo Adding local
          conda config --add channels local
          cd recipes
@@ -51,13 +51,13 @@ node {
            conda build \$f --old-build-string -q
          done
          cd ..
-         toKeep=\$(ls $root/miniconda2/conda-bld/linux-64)
+         toKeep=\$(ls ${root}/miniconda2/conda-bld/linux-64)
          for f in \$toKeep; do
            echo \$f
          done
          mkdir linux-64 && cd linux-64
          wget -q -r -l1 -e robots=off -nH -nd --reject="index.html*" --no-parent --no-cookies "${env.CONDA_CHANNEL_URL/linux-64/}" --user=$NEXUSUSER --password=$NEXUSPASS
-         mv $root/miniconda2/conda-bld/linux-64/* .
+         mv ${root}/miniconda2/conda-bld/linux-64/* .
          conda index .
          deleteString="find . -type f"
          for f in \$toKeep; do
