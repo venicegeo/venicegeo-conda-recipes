@@ -1,11 +1,11 @@
 [submodule "vendor/beachfront-py"]
 	path = vendor/beachfront-py
 	url = https://github.com/venicegeo/beachfront-py.git
-	checkout = master
+	checkout = 1.0.0
 [submodule "vendor/pzsvc-exec"]
 	path = vendor/pzsvc-exec
 	url = https://github.com/venicegeo/pzsvc-exec
-	checkout = master
+	checkout = 1.0.0
 [submodule "vendor/bfalg_WTA"]
 	path = vendor/bfalg_WTA
 	url = https://github.com/venicegeo/bfalg_WTA
@@ -13,7 +13,7 @@
 [submodule "vendor/bfalg-ndwi"]
 	path = vendor/bfalg-ndwi
 	url = https://github.com/venicegeo/bfalg-ndwi
-	checkout = pipeline-refactor
+	checkout = 1.0.0
 [submodule "vendor/bfalg-shape"]
 	path = vendor/bfalg-shape
 	url = https://github.com/venicegeo/bfalg-shape
