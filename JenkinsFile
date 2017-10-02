@@ -35,7 +35,7 @@ node {
          echo Removing defaults
          conda config --remove channels defaults
          echo Adding nexus
-         conda config --add channels `echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`
+         conda config --add channels `echo "${env.CONDA_CHANNEL_URL}" | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`
          conda install conda-build -y -q
          echo Rebuilding conda-bld
          mkdir -p $root/miniconda2/conda-bld/linux-64
@@ -56,7 +56,7 @@ node {
            echo \$f
          done
          mkdir linux-64 && cd linux-64
-         wget -q -r -l1 -e robots=off -nH -nd --reject="index.html*" --no-parent --no-cookies $CONDA_CHANNEL_URL/linux-64/ --user=$NEXUSUSER --password=$NEXUSPASS
+         wget -q -r -l1 -e robots=off -nH -nd --reject="index.html*" --no-parent --no-cookies "${env.CONDA_CHANNEL_URL/linux-64/}" --user=$NEXUSUSER --password=$NEXUSPASS
          mv $root/miniconda2/conda-bld/linux-64/* .
          conda index .
          deleteString="find . -type f"
