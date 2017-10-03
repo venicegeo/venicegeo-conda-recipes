@@ -37,7 +37,7 @@ node {
                echo Removing defaults
                conda config --remove channels defaults
                echo Adding nexus
-               conda config --add channels `echo "${env.CONDA_CHANNEL_URL}" | sed "s#https://#https://${NEXUSUSER}:${NEXUSPASS}@#g"`
+               conda config --add channels `echo "${env.CONDA_CHANNEL_URL}" | sed "s#https://#https://proxy:proxy@#g"`
                conda config --show
                conda install conda-build -y -q
                echo Rebuilding conda-bld
