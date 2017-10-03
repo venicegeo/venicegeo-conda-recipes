@@ -37,6 +37,7 @@ node {
            conda config --remove channels defaults
            echo Adding nexus
            conda config --add channels `echo "${env.CONDA_CHANNEL_URL}" | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`
+           conda config --show
            conda install conda-build -y -q
            echo Rebuilding conda-bld
            mkdir -p ${root}/miniconda2/conda-bld/linux-64
