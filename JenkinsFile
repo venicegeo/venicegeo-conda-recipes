@@ -39,8 +39,8 @@ node {
                conda config --remove channels defaults
                echo Adding nexus
                conda config --add channels `echo "${env.CONDA_CHANNEL_URL}" | sed "s#https://#https://proxy:proxy@#g"`
-               conda config --remove channels https://****:****@nexus.gs.mil/content/repositories/beachfront-conda
                conda config --show
+               conda info
                conda install conda-build -y -q
                echo Rebuilding conda-bld
                mkdir -p ${root}/miniconda2/conda-bld/linux-64
