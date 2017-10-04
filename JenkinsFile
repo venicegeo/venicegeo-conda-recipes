@@ -40,7 +40,7 @@ node {
                conda config --remove channels defaults || true
                echo Adding nexus
                echo "${env.CONDA_CHANNEL_URL}"
-               conda config --add channels `echo "${env.CONDA_CHANNEL_URL}" | sed "s#https://#https://NOTREAL:NOTREAL@#g"`
+               conda config --add channels `echo "${env.CONDA_CHANNEL_URL}" | sed "s#https://#https://proxy:proxy@#g"`
                conda config --show
                conda info
                conda install conda-build -y -q
