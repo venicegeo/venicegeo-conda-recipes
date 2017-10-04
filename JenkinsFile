@@ -25,7 +25,8 @@ node {
 
   stage("Conda Build") {
     sh "find / -name .condarc  2>&1 | grep -v 'Permission denied'"
-    sh "egrep -r 'https://****:****@nexus.gs.mil/content/repositories/beachfront-conda/'"
+    sh "egrep -r 'https://****:****@nexus.gs.mil/content/repositories/beachfront-conda/' /"
+    sh "cat /jslave/.condarc"
     withEnv([
       "PATH+=${golangTool}/bin:${root}/miniconda2/bin",
       "GOROOT=${golangTool}",
