@@ -6,7 +6,6 @@ node {
 
   stage("Setup") {
     deleteDir()
-    sh "ls -al"
     if(env.GITLAB_CREDS) {
       git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
       sh "sed -i 's,https://github.com/venicegeo/,${params.GIT_BASE_URL},g' .gitmodules"
@@ -36,7 +35,7 @@ node {
                echo Clearing out conda-bld
                rm -rf ${root}/miniconda2/conda-bld
                echo Removing defaults
-               conda config --remove channels defaults
+               conda config --remove channels defaults || true
                echo Adding nexus
                conda config --add channels `echo "${env.CONDA_CHANNEL_URL}" | sed "s#https://#https://proxy:proxy@#g"`
                conda config --show
