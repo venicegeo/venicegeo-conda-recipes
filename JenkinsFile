@@ -6,6 +6,8 @@ node {
 
   stage("Setup") {
     deleteDir()
+    sh "rm -rf /jslave/.conda/"
+    sh "rm -rf /jslave/.condarc"
     if(env.GITLAB_CREDS) {
       git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
       sh "sed -i 's,https://github.com/venicegeo/,${params.GIT_BASE_URL},g' .gitmodules"
@@ -17,20 +19,16 @@ node {
       sh "git submodule foreach -q --recursive 'git checkout \$(git config -f \$toplevel/.gitmodules submodule.\$name.checkout)'"
       sh "git submodule"
     }
-      sh "rm -rf $HOME/.conda"
       sh "curl -L https://repo.continuum.io/miniconda/Miniconda2-4.3.21-Linux-x86_64.sh -o miniconda.sh"
       sh "bash miniconda.sh -b -p ${root}/miniconda2"
       sh "rm miniconda.sh"
   }
 
   stage("Conda Build") {
-    sh "find / -name .condarc  2>&1 | grep -v 'Permission denied'"
-    sh "cat /jslave/.condarc"
     withEnv([
       "PATH+=${golangTool}/bin:${root}/miniconda2/bin",
       "GOROOT=${golangTool}",
     ]) {
-      sh "conda config --remove channels https://****:****@nexus.gs.mil/content/repositories/beachfront-conda"
 
       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
         if(env.CA_CERT_BUNDLE_PATH) {
