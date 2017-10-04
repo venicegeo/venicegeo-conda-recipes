@@ -24,6 +24,7 @@ node {
   }
 
   stage("Conda Build") {
+    sh "conda config --remove channels https://****:****@nexus.gs.mil/content/repositories/beachfront-conda"
     sh "find / -name .condarc  2>&1 | grep -v 'Permission denied'"
     sh "cat /jslave/.condarc"
     withEnv([
