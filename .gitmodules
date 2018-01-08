@@ -5,7 +5,7 @@
 [submodule "vendor/pzsvc-exec"]
 	path = vendor/pzsvc-exec
 	url = https://github.com/venicegeo/pzsvc-exec
-	checkout = 1.0.0
+	checkout = master
 [submodule "vendor/bfalg_WTA"]
 	path = vendor/bfalg_WTA
 	url = https://github.com/venicegeo/bfalg_WTA
