@@ -13,7 +13,7 @@
 [submodule "vendor/bfalg-ndwi"]
 	path = vendor/bfalg-ndwi
 	url = https://github.com/venicegeo/bfalg-ndwi
-	checkout = 1.0.6
+	checkout = 1.0.7
 [submodule "vendor/bfalg-shape"]
 	path = vendor/bfalg-shape
 	url = https://github.com/venicegeo/bfalg-shape
