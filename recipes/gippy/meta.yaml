@@ -4,7 +4,7 @@ package:
 
 source:
   # https://github.com/gipit/gippy
-  path: ../gippy-d7537453d1edd0262f9fd16e70dfb0b4c8d0cf35
+  path: ../../vendor/gippy
 requirements:
   build:
     - gcc
