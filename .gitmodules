@@ -18,3 +18,6 @@
 	path = vendor/bfalg-shape
 	url = https://github.com/venicegeo/bfalg-shape
 	checkout = master
+[submodule "vendor/gippy"]
+	path = vendor/gippy
+	url = https://github.com/gipit/gippy.git
