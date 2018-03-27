@@ -73,6 +73,7 @@ done
                echo Adding nexus
                echo "${env.CONDA_CHANNEL_URL}"
                conda config --add channels `echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`
+               conda config --add channels conda-forge || true
                conda config --show
                conda info
                conda install conda-build -y -q
