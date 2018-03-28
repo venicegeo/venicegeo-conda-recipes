@@ -20,4 +20,5 @@
 	checkout = master
 [submodule "vendor/gippy"]
 	path = vendor/gippy
-	url = https://github.com/gipit/gippy.git
+    url = https://github.com/gipit/gippy.git
+    checkout = 1.0.0
