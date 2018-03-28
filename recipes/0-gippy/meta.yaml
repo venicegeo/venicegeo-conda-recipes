@@ -11,6 +11,7 @@ requirements:
     - python
     - numpy 1.14.2
     - libgdal 2.2.4
+    - swig
     - wheel
 
   run:
