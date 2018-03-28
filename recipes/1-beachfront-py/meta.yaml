@@ -14,6 +14,7 @@ requirements:
     - fiona 1.7.4
     - pyproj 1.9.5.1
     - six 1.10.0
+    - click
   run:
     - python 2.7.13
     - gippy 1.0.0
