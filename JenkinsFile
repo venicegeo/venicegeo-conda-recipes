@@ -75,6 +75,7 @@ done
                conda config --add channels `echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`
                conda config --add channels conda-forge || true
                conda config --show
+               conda config --set anaconda_upload yes
                conda info
                conda install conda-build -y -q
                echo Rebuilding conda-bld
