@@ -14,10 +14,6 @@
 	path = vendor/bfalg-ndwi
 	url = https://github.com/venicegeo/bfalg-ndwi
 	checkout = 1.0.8
-[submodule "vendor/bfalg-shape"]
-	path = vendor/bfalg-shape
-	url = https://github.com/venicegeo/bfalg-shape
-	checkout = master
 [submodule "vendor/gippy"]
 	path = vendor/gippy
     url = https://github.com/gipit/gippy.git
