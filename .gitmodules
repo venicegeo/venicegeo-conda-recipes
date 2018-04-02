@@ -9,7 +9,7 @@
 [submodule "vendor/bfalg_WTA"]
 	path = vendor/bfalg_WTA
 	url = https://github.com/venicegeo/bfalg_WTA
-	checkout = develop
+	checkout = 1.0.1
 [submodule "vendor/bfalg-ndwi"]
 	path = vendor/bfalg-ndwi
 	url = https://github.com/venicegeo/bfalg-ndwi
