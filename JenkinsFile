@@ -2,6 +2,22 @@ node {
   def root = pwd()
   def golangTool = tool 'golang_1.7'
   
+  stage("Config") {
+    // clone the configuration repository and copy the current configuration
+    def configDir = "${root}/configuration"
+    def configFile = "${root}/config.json"
+    dir(configDir) {
+      git url: "${env.CONFIGURATION_URL}", credentialsId: "${env.CONFIGURATION_CREDS}"
+      sh "mv ${configDir}/${ENVIRONMENT}-config.json ${configFile}"
+      deleteDir()
+    }
+    // read the current configuration
+    def configJson = readJSON file: "${configFile}"
+    for (param in configJson.credparams + configJson.jobparams) { 
+      env."${param.name}" = (param.type == "booleanParam") ? "${param.defaultvalue}".toBoolean() : "${param.defaultvalue}"
+    }
+  }
+  
   def gitSimple = {
       git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
       sh "git submodule init"
@@ -51,9 +67,9 @@ done
     deleteDir()
     sh "rm -rf /jslave/.conda/"
     sh "rm -rf /jslave/.condarc"
-    if(env.GITLAB_CREDS) {
+    if(env.USE_GIT_CREDS) {
       git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
-      sh "sed -i 's,https://github.com/venicegeo/,${params.GIT_BASE_URL},g' .gitmodules"
+      sh "sed -i 's,https://github.com/venicegeo/,${env.GIT_BASE_URL},g' .gitmodules"
       //checkout([$class: "GitSCM", branches: [[name: "${env.GIT_BRANCH}"]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: "SubmoduleOption", disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: "", trackingSubmodules: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: "${env.GITLAB_CREDS}", url: "${env.GIT_URL}"]]])
       gitComplex()
     } else {
