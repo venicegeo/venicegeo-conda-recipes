@@ -1,7 +1,7 @@
 [submodule "vendor/beachfront-py"]
 	path = vendor/beachfront-py
 	url = https://github.com/venicegeo/beachfront-py.git
-	checkout = 0.2.4b1
+	checkout = 0.2.4
 [submodule "vendor/pzsvc-exec"]
 	path = vendor/pzsvc-exec
 	url = https://github.com/venicegeo/pzsvc-exec
