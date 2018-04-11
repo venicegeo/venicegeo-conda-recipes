@@ -1,6 +1,6 @@
 package:
   name: beachfront
-  version: 0.2.3
+  version: 0.2.4b1
 
 source:
   path: ../../vendor/beachfront-py
