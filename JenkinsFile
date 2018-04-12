@@ -67,7 +67,7 @@ done
     deleteDir()
     sh "rm -rf /jslave/.conda/"
     sh "rm -rf /jslave/.condarc"
-    if(env.USE_GIT_CREDS) {
+    if(env.USE_GIT_CREDS.toBoolean()) {
       git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
       sh "sed -i 's,https://github.com/venicegeo/,${env.GIT_BASE_URL},g' .gitmodules"
       //checkout([$class: "GitSCM", branches: [[name: "${env.GIT_BRANCH}"]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: "SubmoduleOption", disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: "", trackingSubmodules: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: "${env.GITLAB_CREDS}", url: "${env.GIT_URL}"]]])
