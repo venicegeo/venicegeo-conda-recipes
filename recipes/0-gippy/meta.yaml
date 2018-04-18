@@ -9,8 +9,8 @@ requirements:
   build:
     - gcc
     - python
-    - numpy 1.13.1
-    - libgdal 2.2.4
+    - numpy 1.14.2
+    - gdal 2.2.4
     - wheel
 
   run:
