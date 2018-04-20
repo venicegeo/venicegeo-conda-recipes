@@ -1,6 +1,6 @@
 package:
   name: bfalg_wta
-  version: 0.1.0
+  version: 1.0.1
 
 source:
   path: ../../vendor/bfalg_WTA
@@ -12,7 +12,7 @@ requirements:
     - scikit-image 0.13.0
     - scikit-learn 0.18.1
     - scipy 0.19.0
-    - numpy 1.12.0 py27_blas_openblas_200
+    - six 1.10.0
 
   run:
     - python 2.7.13 
@@ -20,7 +20,7 @@ requirements:
     - scikit-image 0.13.0
     - scikit-learn 0.18.1
     - scipy 0.19.0
-    - numpy 1.12.0 py27_blas_openblas_200
+    - six 1.10.0
 
 build:
   preserve_egg_dir: True

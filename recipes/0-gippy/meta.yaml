@@ -1,0 +1,26 @@
+package:
+  name: gippy
+  version: 1.0.0
+
+source:
+  # https://github.com/gipit/gippy
+  path: ../../vendor/gippy
+requirements:
+  build:
+    - gcc
+    - python
+    - numpy 1.14.2
+    - gdal 2.2.4
+    - wheel
+
+  run:
+    - python
+
+build:
+  string: py{{py}}_0
+  binary_relocation: False
+
+about:
+  home: https://github.com/gipit/gippy
+  summary: "Gippy is a Python library for image processing of geospatial raster data"
+  license: Apache 2.0
