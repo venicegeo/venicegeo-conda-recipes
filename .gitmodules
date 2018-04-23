@@ -13,7 +13,7 @@
 [submodule "vendor/bfalg-ndwi"]
 	path = vendor/bfalg-ndwi
 	url = https://github.com/venicegeo/bfalg-ndwi
-	checkout = 1.1.0
+	checkout = 1.1.1
 [submodule "vendor/gippy"]
 	path = vendor/gippy
     url = https://github.com/gipit/gippy.git
