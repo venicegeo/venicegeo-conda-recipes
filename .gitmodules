@@ -20,5 +20,5 @@
     checkout = v1.0.0
 [submodule "vendor/pypotrace"]
 	path = vendor/pypotrace
-	url = git@github.com:flupke/pypotrace.git
+	url = https://github.com/flupke/pypotrace.git
     checkout = 0.1.3
