@@ -10,11 +10,13 @@ requirements:
     - gcc
     - gdal 2.2.4
     - python 2.7.14
+    - numpy 1.14.2
     - wheel
 
   run:
     - gdal 2.2.4 
-    - python 2.7.14   
+    - python 2.7.14  
+    - numpy 1.14.2 
 
 build:
   string: py{{py}}_0

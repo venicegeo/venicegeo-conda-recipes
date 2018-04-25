@@ -8,8 +8,10 @@ source:
 requirements:
   build:
     - beachfront
+    - numpy 1.14.2
   run:
     - beachfront
+    - numpy 1.14.2
 
 build:
   preserve_egg_dir: True
