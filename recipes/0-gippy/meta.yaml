@@ -9,10 +9,12 @@ requirements:
   build:
     - gcc
     - gdal 2.2.4
+    - python 2.7.14
     - wheel
 
   run:
-    - gdal 2.2.4    
+    - gdal 2.2.4 
+    - python 2.7.14   
 
 build:
   string: py{{py}}_0
