@@ -8,12 +8,10 @@ source:
 requirements:
   build:
     - gcc
-    - numpy 1.14.2
     - gdal 2.2.4
     - wheel
 
   run:
-    - numpy 1.14.2
     - gdal 2.2.4    
 
 build:
