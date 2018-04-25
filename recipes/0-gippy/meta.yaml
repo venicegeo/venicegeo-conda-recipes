@@ -9,13 +9,13 @@ requirements:
   build:
     - gcc
     - gdal 2.2.4
-    - python 2.7.14
+    - python
     - numpy 1.14.2
     - wheel
 
   run:
     - gdal 2.2.4 
-    - python 2.7.14  
+    - python
     - numpy 1.14.2 
 
 build:
