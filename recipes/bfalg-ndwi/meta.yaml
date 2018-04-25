@@ -7,9 +7,9 @@ source:
 
 requirements:
   build:
-    - python 2.7.13
+    - python 2.7.14
   run:
-    - python 2.7.13
+    - python 2.7.14
     - beachfront
 
 build:
