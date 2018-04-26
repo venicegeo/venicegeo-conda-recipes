@@ -5,8 +5,8 @@ build:
   number: 0
   #skip: True # [osx]
 source:
-  fn: potrace_1.15_src_all.tar.gz
-  url: https://depot.galaxyproject.org/software/potrace/potrace_1.15_src_all.tar.gz
+  fn: potrace-1.15.linux-x86_64.tar.gz
+  url: http://potrace.sourceforge.net/download/1.15/potrace-1.15.linux-x86_64.tar.gz
 requirements:
   build:
     - gcc   [linux]
