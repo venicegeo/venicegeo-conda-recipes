@@ -9,13 +9,13 @@ requirements:
   build:
     - gcc
     - python
-    - numpy
+    - numpy 1.14.2
     - libagg
     - potrace
     #- fiona 1.6.3
   run:
     - python
-    - numpy
+    - numpy 1.14.2
     #- libpotrace 1.14.0
     #- libagg 2.5.0
     #- fiona 1.6.3
