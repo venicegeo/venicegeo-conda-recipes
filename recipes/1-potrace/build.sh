@@ -1,6 +1,6 @@
 #!/bin/env bash
 
-./configure --with-libpotrace
+./configure --with-libpotrace --prefix=$PREFIX
 make
 make install
 
