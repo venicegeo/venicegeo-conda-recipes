@@ -8,13 +8,13 @@ source:
 requirements:
   build:
     - gcc
-    - gdal 2.2.3
+    - gdal 2.1.3
     - python
     - numpy 1.14.2
     - wheel
 
   run:
-    - gdal 2.2.3 
+    - gdal 2.1.3 
     - python
     - numpy 1.14.2 
 
