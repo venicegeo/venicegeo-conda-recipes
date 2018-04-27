@@ -15,7 +15,7 @@ requirements:
 
   run:
     - gdal 2.2.3 
-    - python 2.7.13
+    - python
     - numpy 1.14.2 
 
 build:
