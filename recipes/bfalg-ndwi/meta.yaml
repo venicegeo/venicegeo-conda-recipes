@@ -9,9 +9,11 @@ requirements:
   build:
     - beachfront
     - numpy 1.14.2
+    - python 2.7.13
   run:
     - beachfront
     - numpy 1.14.2
+    - python 2.7.13
 
 build:
   preserve_egg_dir: True
