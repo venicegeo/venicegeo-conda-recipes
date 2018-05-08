@@ -11,12 +11,12 @@ requirements:
     - python 2.7.13
     - numpy 1.14.2
     - libagg
-    - potrace
+    - potrace 1.15.0
     #- fiona 1.6.3
   run:
     - python 2.7.13
     - numpy 1.14.2
-    #- libpotrace 1.14.0
+    - potrace 1.15.0
     #- libagg 2.5.0
     #- fiona 1.6.3
 
