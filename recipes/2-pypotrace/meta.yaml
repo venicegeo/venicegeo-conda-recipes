@@ -10,14 +10,14 @@ requirements:
     - gcc
     - python 2.7.13
     - numpy 1.14.2
-    - libagg
+    - libagg 2.5.0
     - potrace 1.15.0
     #- fiona 1.6.3
   run:
     - python 2.7.13
     - numpy 1.14.2
     - potrace 1.15.0
-    #- libagg 2.5.0
+    - libagg 2.5.0
     #- fiona 1.6.3
 
 build:
