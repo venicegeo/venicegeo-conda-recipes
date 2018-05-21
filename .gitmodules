@@ -1,7 +1,7 @@
 [submodule "vendor/beachfront-py"]
 	path = vendor/beachfront-py
 	url = https://github.com/venicegeo/beachfront-py.git
-	checkout = 2.0.2
+	checkout = 2.0.2-ato-assess
 [submodule "vendor/pzsvc-exec"]
 	path = vendor/pzsvc-exec
 	url = https://github.com/venicegeo/pzsvc-exec
@@ -9,5 +9,4 @@
 [submodule "vendor/bfalg-ndwi"]
 	path = vendor/bfalg-ndwi
 	url = https://github.com/venicegeo/bfalg-ndwi
-	checkout = 2.0.2
-
+	checkout = 2.0.2-ato-assess
