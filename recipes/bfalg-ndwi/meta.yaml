@@ -3,7 +3,7 @@ package:
   version: 2.0.2
 
 source:
-  path: ../../vendor/bfalg-ndwi
+  git_url: https://github.com/venicegeo/bfalg-ndwi.git
 
 requirements:
   build:
