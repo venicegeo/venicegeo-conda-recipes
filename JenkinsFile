@@ -17,51 +17,6 @@ node {
       env."${param.name}" = (param.type == "booleanParam") ? "${param.defaultvalue}".toBoolean() : "${param.defaultvalue}"
     }
   }
-  
-  def gitSimple = {
-      git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
-      sh "git submodule init"
-      sh "git submodule update"
-      sh "git submodule foreach -q --recursive 'git checkout \$(git config -f \$toplevel/.gitmodules submodule.\$name.checkout)'"
-      sh "git submodule"
-  }
-  
-  def gitComplex = {
-            sh """
-i=0
-for line in `cat .gitmodules`;do
-  if [ \$((i%11)) = 4 ];then
-    folder=\$line
-  fi
-  if [ \$((i%11)) = 7 ];then
-    url=\$line
-  fi
-  if [ \$((i%11)) = 10 ];then
-    checkout=\$line
-  
-    echo \$folder \$url \$checkout >> modules.txt  
-  fi
-  i=\$((i+1))
-    
-done
-
-      """
-      
-      def testArr = sh(script: """cat modules.txt""", returnStdout:true).trim().split("\n")
-      sh "rm modules.txt"
-
-      
-        for (int i = 0; i < testArr.size(); i++) {
-            def parts = testArr[i].split(" ");
-            def folder = parts[0]
-            def url = parts[1]
-            def tag = parts[2]
-            dir(folder){
-                git url: url, credentialsId: "${env.GITLAB_CREDS}"
-                sh "git checkout $tag"
-            }
-        }
-  }
 
  stage("Setup") {
     deleteDir()
@@ -69,11 +24,8 @@ done
     sh "rm -rf /jslave/.condarc"
     if(env.USE_GIT_CREDS.toBoolean()) {
       git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}", credentialsId: "${env.GITLAB_CREDS}"
-      sh "sed -i 's,https://github.com/venicegeo/,${params.GIT_BASE_URL},g' .gitmodules"
-      //checkout([$class: "GitSCM", branches: [[name: "${env.GIT_BRANCH}"]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: "SubmoduleOption", disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: "", trackingSubmodules: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: "${env.GITLAB_CREDS}", url: "${env.GIT_URL}"]]])
-      gitComplex()
     } else {
-      gitSimple()
+	  git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
     }
       sh "curl -L https://repo.continuum.io/miniconda/Miniconda2-4.3.21-Linux-x86_64.sh -o miniconda.sh"
       sh "bash miniconda.sh -b -p ${root}/miniconda2"
