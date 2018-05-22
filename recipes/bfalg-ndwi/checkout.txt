@@ -1,1 +1,1 @@
-venicegeo/bfalg-ndwi master
+venicegeo/bfalg-ndwi 2.0.2-ato-assess
