@@ -42,7 +42,7 @@ node {
     sh "rm -rf /jslave/.conda/"
     sh "rm -rf /jslave/.condarc"
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
-      sh "wget {env.CONDA_CHANNEL_URL}/miniconda.sh --user=$NEXUSUSER --password=$NEXUSPASS"
+      sh "wget ${env.CONDA_CHANNEL_URL}/miniconda.sh --user=$NEXUSUSER --password=$NEXUSPASS"
     }
     sh "bash miniconda.sh -b -p ${root}/miniconda2"
     sh "rm miniconda.sh"
