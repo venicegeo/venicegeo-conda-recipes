@@ -7,6 +7,7 @@ source:
 
 requirements:
   build:
+    - setuptools 39.2.0
     - gippy 1.0.0.post3
     - pypotrace 0.1.3
     - requests 2.11.1
