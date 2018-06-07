@@ -50,6 +50,7 @@ node {
   
   def condaBuild = {
       sh """
+               conda config --set auto_update_conda false
                echo Clearing out conda-bld
                rm -rf ${root}/miniconda2/conda-bld
                echo Removing defaults
@@ -59,7 +60,7 @@ node {
                conda config --add channels `echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`
                conda config --show
                conda info
-               conda install conda-build -y -q
+               conda install conda-build=3.0.6 -y
                echo Rebuilding conda-bld
                mkdir -p ${root}/miniconda2/conda-bld/linux-64
                mkdir -p ${root}/miniconda2/conda-bld/noarch
