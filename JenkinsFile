@@ -26,6 +26,9 @@ node {
       for(int i=0;i<recipes.size();i++){
           dir("recipes/"+recipes[i]){
             def checkoutParts=sh(script:"""cat checkout.txt""",returnStdout:true).trim().split(" ")
+            if (checkoutParts.size() == 1) {
+              checkoutParts << "master"
+            }
             def fullName=checkoutParts[0]
             def name=fullName.split("/")[1]
             sh "mkdir ${name}"

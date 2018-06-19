@@ -1,1 +1,1 @@
-venicegeo/beachfront-py 0.2.5
+venicegeo/beachfront-py
