@@ -1,5 +1,6 @@
 package:
   name: beachfront
+  version: x
 
 source:
   path: ./beachfront-py

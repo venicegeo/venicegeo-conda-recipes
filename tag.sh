@@ -11,9 +11,10 @@ for f in $(ls); do
   echo $tmp" "$tag > checkout.txt
   i=0
   while IFS='' read -r line || [[ -n "$line" ]]; do
-    echo "$line" >> tmp
-    if [ $i == 1 ]; then
+    if [ $i == 2 ]; then
       echo "  version: "$tag >> tmp
+    else
+      echo "$line" >> tmp
     fi
     i=$((i+1))
   done < "meta.yaml"

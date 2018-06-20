@@ -1,5 +1,6 @@
 package:
   name: bfalg-ndwi
+  version: x
 
 source:
   path: ./bfalg-ndwi

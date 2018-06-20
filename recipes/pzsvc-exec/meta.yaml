@@ -1,5 +1,6 @@
 package:
   name: pzsvc-exec
+  version: x
 
 source:
   path: ./pzsvc-exec
