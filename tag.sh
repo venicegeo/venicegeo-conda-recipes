@@ -10,14 +10,7 @@ for f in $(ls); do
   tmp=$(cat checkout.txt)
   echo $tmp" "$tag > checkout.txt
   i=0
-  while IFS='' read -r line || [[ -n "$line" ]]; do
-    if [ $i == 2 ]; then
-      echo "  version: "$tag >> tmp
-    else
-      echo "$line" >> tmp
-    fi
-    i=$((i+1))
-  done < "meta.yaml"
-  mv "tmp" "meta.yaml"
+  sed -i "s/beachfront x/beachfront $tag/g" meta.yaml
+  sed -i "s/version: x/version: $tag/g" meta.yaml
   cd ..
 done

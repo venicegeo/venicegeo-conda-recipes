@@ -7,13 +7,13 @@ source:
 
 requirements:
   build:
-    - beachfront
+    - beachfront x
     - setuptools 39.2.0
     - numpy 1.14.0 py27_blas_openblas_200
     - python 2.7.13
     - gdal 2.1.3
   run:
-    - beachfront
+    - beachfront x
     - numpy 1.14.0 py27_blas_openblas_200
     - python 2.7.13
     - gdal 2.1.3
