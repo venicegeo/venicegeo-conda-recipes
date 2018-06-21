@@ -1,1 +1,1 @@
-venicegeo/bfalg-ndwi
+venicegeo/bfalg-ndwi REPLACE_VERSION

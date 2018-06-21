@@ -1,6 +1,6 @@
 package:
   name: beachfront
-  version: x
+  version: REPLACE_VERSION
 
 source:
   path: ./beachfront-py
