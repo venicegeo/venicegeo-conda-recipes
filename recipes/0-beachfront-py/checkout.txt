@@ -1,1 +1,1 @@
-venicegeo/beachfront-py
+venicegeo/beachfront-py REPLACE_VERSION
