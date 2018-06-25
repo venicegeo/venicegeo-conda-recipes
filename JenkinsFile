@@ -1,14 +1,17 @@
 def clone(String branch) {
+      def  isTag = false
 	  sh "rm -rf work && mkdir work"
 	  dir("work") {
       git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
       def recipes = sh(script: """ls recipes""",returnStdout:true).trim().split("\n")
       for(int i=0;i<recipes.size();i++){
           dir("recipes/"+recipes[i]){
+            if(!isTag) {
             sh """
               sed -i "s/REPLACE_VERSION/${branch}/g" meta.yaml
               sed -i "s/REPLACE_VERSION/${branch}/g" checkout.txt
             """
+            }
             def checkoutParts=sh(script:"""cat checkout.txt""",returnStdout:true).trim().split(" ")
             def fullName=checkoutParts[0]
             def name=fullName.split("/")[1]
@@ -27,7 +30,7 @@ def clone(String branch) {
 node {
   def root = pwd()
   def golangTool = tool 'golang_1.7'
-  
+
   stage("Config") {
     deleteDir()
     // clone the configuration repository and copy the current configuration
@@ -109,22 +112,29 @@ node {
             condaBuildWrk()
         }
   }
-  
+  def  isTag = false
+  if(!isTag) {
     stage("Clone master") {
 		clone("master")
 	}
-
   stage("Build") {
 	condaBuild()
    }
-   
    stage("Clone Production") {
 	clone("Production")
    }
-   
    stage("Build") {
 	condaBuild()
    }
+  } else {
+      stage("Clone tag") {
+        clone("")
+      }
+      stage("Build") {
+          condaBuild()
+      }
+  }
+  
 	   
   stage("Nexus Deploy") {
     	withEnv([ "PATH+=${root}/miniconda2/bin"]) {
