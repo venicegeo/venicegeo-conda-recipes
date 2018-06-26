@@ -1,1 +1,1 @@
-venicegeo/pzsvc-exec master
+venicegeo/pzsvc-exec REPLACE_VERSION

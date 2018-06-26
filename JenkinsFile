@@ -1,7 +1,36 @@
+def clone(String branch) {
+      def  isTag = false
+	  sh "rm -rf work && mkdir work"
+	  dir("work") {
+      git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
+      def recipes = sh(script: """ls recipes""",returnStdout:true).trim().split("\n")
+      for(int i=0;i<recipes.size();i++){
+          dir("recipes/"+recipes[i]){
+            if(!isTag) {
+            sh """
+              sed -i "s/REPLACE_VERSION/${branch}/g" meta.yaml
+              sed -i "s/REPLACE_VERSION/${branch}/g" checkout.txt
+            """
+            }
+            def checkoutParts=sh(script:"""cat checkout.txt""",returnStdout:true).trim().split(" ")
+            def fullName=checkoutParts[0]
+            def name=fullName.split("/")[1]
+            sh "mkdir ${name}"
+            dir(name){
+                git url: "https://github.com/"+fullName
+                def checkout=checkoutParts[1]
+                sh "git checkout ${checkout}"
+            }
+          }
+      }
+      sh "rm -rf recipes/*@tmp"
+	  }
+  }
+  
 node {
   def root = pwd()
   def golangTool = tool 'golang_1.7'
-  
+
   stage("Config") {
     deleteDir()
     // clone the configuration repository and copy the current configuration
@@ -18,28 +47,9 @@ node {
       env."${param.name}" = (param.type == "booleanParam") ? "${param.defaultvalue}".toBoolean() : "${param.defaultvalue}"
     }
   }
-
-  stage("Clone") {
-      deleteDir()
-      git url: "${env.GIT_URL}", branch: "${env.GIT_BRANCH}"
-      def recipes = sh(script: """ls recipes""",returnStdout:true).trim().split("\n")
-      for(int i=0;i<recipes.size();i++){
-          dir("recipes/"+recipes[i]){
-            def checkoutParts=sh(script:"""cat checkout.txt""",returnStdout:true).trim().split(" ")
-            def fullName=checkoutParts[0]
-            def name=fullName.split("/")[1]
-            sh "mkdir ${name}"
-            dir(name){
-                git url: "https://github.com/"+fullName
-                def checkout=checkoutParts[1]
-                sh "git checkout ${checkout}"
-            }
-          }
-      }
-      sh "rm -rf recipes/*@tmp"
-  }
-
- stage("Setup Conda") {
+  
+   stage("Setup Conda") {
+	deleteDir()
     sh "rm -rf /jslave/.conda/"
     sh "rm -rf /jslave/.condarc"
     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
@@ -47,70 +57,106 @@ node {
     }
     sh "bash miniconda.sh -b -p ${root}/miniconda2"
     sh "rm miniconda.sh"
+          	withEnv([ "PATH+=${root}/miniconda2/bin"]) {
+    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
+    sh """
+       conda config --set auto_update_conda false
+       echo Clearing out conda-bld
+       rm -rf ${root}/miniconda2/conda-bld
+       echo Removing defaults
+       conda config --remove channels defaults || true
+       echo Adding nexus
+       echo "${env.CONDA_CHANNEL_URL}"
+       conda config --add channels `echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`
+       conda config --show
+       conda info
+       conda install conda-build=3.0.6 -y
+       echo Rebuilding conda-bld
+       mkdir -p ${root}/miniconda2/conda-bld/linux-64
+       mkdir -p ${root}/miniconda2/conda-bld/noarch
+       conda index ${root}/miniconda2/conda-bld/linux-64
+       conda index ${root}/miniconda2/conda-bld/noarch
+       echo Adding local
+       conda config --add channels local
+    """
+  }
+  }
   }
   
-  def condaBuild = {
+  
+  
+  def condaBuildWrk = {
+      	withEnv([
+      "PATH+=${golangTool}/bin:${root}/miniconda2/bin",
+      "GOROOT=${golangTool}",
+    ]) {
+	  dir("work") {
       sh """
-               conda config --set auto_update_conda false
-               echo Clearing out conda-bld
-               rm -rf ${root}/miniconda2/conda-bld
-               echo Removing defaults
-               conda config --remove channels defaults || true
-               echo Adding nexus
-               echo "${env.CONDA_CHANNEL_URL}"
-               conda config --add channels `echo $CONDA_CHANNEL_CREDS_URL | sed -e "s/NEXUSUSER/${NEXUSUSER}/g" | sed -e "s/NEXUSPASS/${NEXUSPASS}/g"`
-               conda config --show
-               conda info
-               conda install conda-build=3.0.6 -y
-               echo Rebuilding conda-bld
-               mkdir -p ${root}/miniconda2/conda-bld/linux-64
-               mkdir -p ${root}/miniconda2/conda-bld/noarch
-               conda index ${root}/miniconda2/conda-bld/linux-64
-               conda index ${root}/miniconda2/conda-bld/noarch
-               echo Adding local
-               conda config --add channels local
                cd recipes
                vendoredFolders=\$(ls)
                for f in \$vendoredFolders; do
                  echo "Starting build for \$f"
-                 conda build \$f --old-build-string -q
+                 conda build \$f --old-build-string -q  --no-build-id
                done
-               cd ..
-               toKeep=\$(ls ${root}/miniconda2/conda-bld/linux-64)
-               for f in \$toKeep; do
-                 echo \$f
-               done
-               mkdir linux-64 && cd linux-64
-               wget -q -r -l1 -e robots=off -nH -nd --reject="index.html*" --no-parent --no-cookies "${env.CONDA_CHANNEL_URL}"/linux-64/ --user=$NEXUSUSER --password=$NEXUSPASS
-               mv ${root}/miniconda2/conda-bld/linux-64/* .
-               conda index .
-               deleteString="find . -type f"
-               for f in \$toKeep; do
-                 deleteString=\$deleteString" ! -name \$f"
-               done
-               deleteString=\$deleteString" -delete"
-               \$deleteString
                """
+	  }
+    }
   }
-
-  stage("Conda Build") {
-    withEnv([
-      "PATH+=${golangTool}/bin:${root}/miniconda2/bin",
-      "GOROOT=${golangTool}",
-    ]) {
-      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
+  
+  def condaBuild = {
         if(env.CA_CERT_BUNDLE_PATH) {
           withEnv(["REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-bundle.crt"]) {
-              condaBuild()
+              condaBuildWrk()
             }
         } else{
-            condaBuild()
+            condaBuildWrk()
         }
-        }
-      }
+  }
+  def  isTag = false
+  if(!isTag) {
+    stage("Clone master") {
+		clone("master")
+	}
+  stage("Build") {
+	condaBuild()
    }
-
+   stage("Clone Production") {
+	clone("Production")
+   }
+   stage("Build") {
+	condaBuild()
+   }
+  } else {
+      stage("Clone tag") {
+        clone("")
+      }
+      stage("Build") {
+          condaBuild()
+      }
+  }
+  
+	   
   stage("Nexus Deploy") {
+    	withEnv([ "PATH+=${root}/miniconda2/bin"]) {
+      withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_READ_ONLY_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
+      sh """
+       toKeep=\$(ls ${root}/miniconda2/conda-bld/linux-64)
+       for f in \$toKeep; do
+         echo \$f
+       done
+       mkdir linux-64 && cd linux-64
+       wget -q -r -l1 -e robots=off -nH -nd --reject="index.html*" --no-parent --no-cookies "${env.CONDA_CHANNEL_URL}"/linux-64/ --user=$NEXUSUSER --password=$NEXUSPASS
+       mv ${root}/miniconda2/conda-bld/linux-64/* .
+       conda index .
+       deleteString="find . -type f"
+       for f in \$toKeep; do
+         deleteString=\$deleteString" ! -name \$f"
+       done
+       deleteString=\$deleteString" -delete"
+       \$deleteString
+      """
+      }
+      }
       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.ARTIFACT_STORAGE_CREDS}", usernameVariable: 'NEXUSUSER', passwordVariable: 'NEXUSPASS']]) {
         sh 'for f in $(find linux-64 -type f); do curl -T $f -u $NEXUSUSER:$NEXUSPASS $CONDA_CHANNEL_URL/$f; done'
       }
